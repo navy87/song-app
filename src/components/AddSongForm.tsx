@@ -1,32 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addSong, addSongAsync, fetchSongsAsync } from '../app/songsSlice';
+import { Song, addSongAsync, fetchSongsAsync, updateSongAsync } from '../app/songsSlice';
 import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppDispatch } from '../app/store';
 
+interface AddSongFormProps {
+  song: Song;
+  setSong: React.Dispatch<React.SetStateAction<Song>>;
+}
 
-const AddSongForm: React.FC = () => {
+const AddSongForm: React.FC<AddSongFormProps> = ({song, setSong}) => {
   const dispatch = useDispatch<AppDispatch>();
-  const [newSong, setNewSong] = useState({
-    _id: '',
-    title: '',
-    artist: '',
-    album: '',
-    genre: '',
-  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewSong({ ...newSong, [e.target.name]: e.target.value });
+    setSong({ ...song, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(addSongAsync(newSong));
+    if (song._id?.length) {
+      dispatch(updateSongAsync({ id: song._id, updatedSong: song }));
+    } else {
+      dispatch(addSongAsync(song));
+    }
     dispatch(fetchSongsAsync());
 
-    setNewSong({
+    setSong({
       _id: '',
       title: '',
       artist: '',
@@ -38,21 +39,25 @@ const AddSongForm: React.FC = () => {
 
   return (
     <StyledContainer>
-      <h2>Add New Song</h2>
+      <h2>
+        {song._id?.length ? 'Edit Song' : 'Add New Song'}
+      </h2>
       <StyledForm onSubmit={handleSubmit}>
-        <label>Title:</label>
-        <StyledInput  type="text" name="title" value={newSong.title} onChange={handleChange} required />
+        <label htmlFor={"id_title"}>Title:</label>
+        <StyledInput id={"id_title"}  type="text" name="title" value={song.title} onChange={handleChange} required />
 
-        <label>Artist:</label>
-        <StyledInput  type="text" name="artist" value={newSong.artist} onChange={handleChange} required />
+        <label htmlFor={"id_artist"}>Artist:</label>
+        <StyledInput id="id_artist"  type="text" name="artist" value={song.artist} onChange={handleChange} required />
 
-        <label>Album:</label>
-        <StyledInput  type="text" name="album" value={newSong.album} onChange={handleChange} required />
+        <label htmlFor={"id_album"}>Album:</label>
+        <StyledInput id="id_album"  type="text" name="album" value={song.album} onChange={handleChange} required />
 
-        <label>Genre:</label>
-        <StyledInput  type="text" name="genre" value={newSong.genre} onChange={handleChange} required />
+        <label htmlFor={"id_genre"}>Genre:</label>
+        <StyledInput id="id_genre" type="text" name="genre" value={song.genre} onChange={handleChange} required />
 
-        <StyledButton  type="submit">Add Song</StyledButton>
+        <StyledButton  type="submit">
+          {song._id?.length ? 'Update Song' : 'Add Song'}
+        </StyledButton>
         </StyledForm>
         </StyledContainer>
   );

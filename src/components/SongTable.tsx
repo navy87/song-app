@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteSongAsync, fetchSongsAsync, updateSongAsync } from '../app/songsSlice';
+import { Song, deleteSongAsync, fetchSongsAsync } from '../app/songsSlice';
 import { RootState } from '../app/rootReducer'
 import { AppDispatch } from '../app/store';
 import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const SongTable: React.FC = () => {
+interface SongTableProps {
+  setSong: React.Dispatch<React.SetStateAction<Song>>;
+}
+
+const SongTable: React.FC<SongTableProps> = ({setSong}) => {
     const dispatch: AppDispatch = useDispatch(); 
     const songs = useSelector((state: RootState) => state.songs.songs);
   
@@ -18,7 +22,8 @@ const SongTable: React.FC = () => {
     }, [dispatch]);
 
     const handleUpdateSong = async (id: string, updatedSong: any) => {
-      await dispatch(updateSongAsync({ id, updatedSong }));
+      setSong(updatedSong);
+      window.scrollTo(0, 0);
     };
   
     const handleDeleteSong = async (id: string) => {

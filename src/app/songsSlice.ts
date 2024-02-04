@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-interface Song {
+export interface Song {
   _id: string;
   title: string;
   artist: string;
@@ -49,7 +49,6 @@ export const deleteSongAsync = createAsyncThunk(
 export const fetchSongsAsync = createAsyncThunk('songs/fetchSongs', async () => {
   const response = await axios.get('https://song-back-addis.onrender.com/songs');
   return response.data;
-  console.log("response.data");
 });
 
 const songsSlice = createSlice({

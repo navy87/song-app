@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppDispatch } from '../app/store';
+import { useNavigate } from 'react-router-dom';
 
 interface AddSongFormProps {
   song: Song;
@@ -13,19 +14,24 @@ interface AddSongFormProps {
 
 const AddSongForm: React.FC<AddSongFormProps> = ({song, setSong}) => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSong({ ...song, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    toast.dismiss();
+
+    toast.info('Saving, please wait...', { autoClose: false });
     if (song._id?.length) {
-      dispatch(updateSongAsync({ id: song._id, updatedSong: song }));
+      await dispatch(updateSongAsync({ id: song._id, updatedSong: song }));
     } else {
-      dispatch(addSongAsync(song));
+      await dispatch(addSongAsync(song));
     }
-    dispatch(fetchSongsAsync());
+    await dispatch(fetchSongsAsync());
+    toast.dismiss();
 
     setSong({
       _id: '',
@@ -35,6 +41,7 @@ const AddSongForm: React.FC<AddSongFormProps> = ({song, setSong}) => {
       genre: '',
     });
     toast.success('Song added successfully!');
+    navigate('/');
   };
 
   return (

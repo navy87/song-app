@@ -5,11 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './app/store'; // Adjust the path based on your file structure
+import { ToastContainer } from 'react-toastify';
+import PageRoute from './PageRoute';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ToastContainer />
+      <PageRoute />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

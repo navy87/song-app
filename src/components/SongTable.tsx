@@ -6,24 +6,19 @@ import { AppDispatch } from '../app/store';
 import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 interface SongTableProps {
-  setSong: React.Dispatch<React.SetStateAction<Song>>;
 }
 
-const SongTable: React.FC<SongTableProps> = ({setSong}) => {
+const SongTable: React.FC<SongTableProps> = ({}) => {
     const dispatch: AppDispatch = useDispatch(); 
     const songs = useSelector((state: RootState) => state.songs.songs);
+    const navigate = useNavigate();
   
-    useEffect(() => {
-        console.log('Dispatching fetchSongsAsync...');
-      dispatch(fetchSongsAsync());
-      
-    }, [dispatch]);
 
     const handleUpdateSong = async (id: string, updatedSong: any) => {
-      setSong(updatedSong);
-      window.scrollTo(0, 0);
+      navigate(`/edit/${id}`);
     };
   
     const handleDeleteSong = async (id: string) => {

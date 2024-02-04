@@ -56,8 +56,6 @@ const App: React.FC = () => {
             <StyledFooter>
                 <p>© 2024 Music Library</p>
             </StyledFooter>
-
-
         </div>
     );
 };

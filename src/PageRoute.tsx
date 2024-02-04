@@ -5,6 +5,7 @@ import App from './App';
 import AddSongPage from './components/AddSongPage';
 import EditSongPage from './components/EditSongPage';
 import StatsPage from './components/StatsPage';
+import NotFoundPage from './components/NotFoundPage';
 
 
 const PageRoute: React.FC = () => {
@@ -19,7 +20,7 @@ const PageRoute: React.FC = () => {
                 <Route path="stats" element={<StatsPage />} />
             </Route>
 
-            <Route path="*" element={<h1>Not Found</h1>} />
+            <Route path="*" element={<NotFoundPage />} />
         </Routes>
     </BrowserRouter>
   );

@@ -21,7 +21,8 @@ const initialState: SongsState = {
 export const addSongAsync = createAsyncThunk(
   'songs/addSong',
   async (newSong: Song) => {
-    const response = await axios.post('https://song-back-addis.onrender.com/songs/add', newSong);
+    const response = await axios.post('https://song-back-addis.onrender.com/songs/add', {...newSong, _id: undefined});
+    console.log({ response });
     return { songs: response.data }; 
   }
 );

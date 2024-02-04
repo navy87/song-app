@@ -4,6 +4,7 @@ import SongTable from './components/SongTable';
 import App from './App';
 import AddSongPage from './components/AddSongPage';
 import EditSongPage from './components/EditSongPage';
+import StatsPage from './components/StatsPage';
 
 
 const PageRoute: React.FC = () => {
@@ -12,8 +13,10 @@ const PageRoute: React.FC = () => {
         <Routes>
             <Route path="/" element={<App />}>
                 <Route index element={<SongTable />} />
-                <Route path="/add" element={<AddSongPage />} />
-                <Route path="/edit/:id" element={<EditSongPage />} />
+                <Route path="songs" element={<SongTable />} />
+                <Route path="add" element={<AddSongPage />} />
+                <Route path="edit/:id" element={<EditSongPage />} />
+                <Route path="stats" element={<StatsPage />} />
             </Route>
 
             <Route path="*" element={<h1>Not Found</h1>} />

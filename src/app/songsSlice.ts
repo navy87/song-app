@@ -11,10 +11,33 @@ export interface Song {
 
 interface SongsState {
   songs: Song[];
+  albumCounts: {
+    [key: string]: number;
+  }
+  genreCounts: {
+    [key: string]: number;
+  }
+  artistCounts: {
+    [key: string]: {
+      totalSongs: number;
+      totalAlbums: number;
+    }
+  }
+  totalSongs: number;
+  totalAlbums: number;
+  totalArtists: number;
+  totalGenres: number;
 }
 
 const initialState: SongsState = {
   songs: [],
+  albumCounts: {},
+  genreCounts: {},
+  artistCounts: {},
+  totalSongs: 0,
+  totalAlbums: 0,
+  totalArtists: 0,
+  totalGenres: 0,
 };
 
 // In songsSlice.ts
@@ -64,7 +87,7 @@ const songsSlice = createSlice({
     },
     extraReducers: (builder) => {
       builder.addCase(fetchSongsAsync.fulfilled, (state, action) => {
-        state.songs = action.payload.songs; 
+        Object.assign(state, action.payload);
       });
 
       builder.addCase(addSongAsync.fulfilled, (state, action) => {
